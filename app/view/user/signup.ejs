@@ -1,0 +1,102 @@
+<html>
+
+<head>
+	<%- include('./../partials/head.ejs') %>
+</head>
+
+<body>
+	<%- include('./../partials/header.ejs') %>
+	<section class="container h-center margin-top-50 lucida-grande">
+		<form id="signup-form" class="box b3 container ground margin-top-15 padding-10">
+			<div class="box b1 underline lucida-grande em09 bold margin-top-10 center noselect">Crie sua conta e receba
+				R$20,00 para começar</div>
+
+			<div id="message" class="box b1 lucida-grande em09 bold center margin-top-10 padding-5 radius-5"
+				style="background-color:#e32626;color:#fff;display: none;"><%= message %></div>
+
+			<input type="text" name="business" class="box b1 em11 lucida-grande border-bottom padding-10 margin-top-5"
+				maxlength="60" placeholder="/meudominio" role="presentation" autocomplete="off">
+			<input type="email" name="email" class="box b1 em11 lucida-grande border-bottom padding-10 margin-top-5"
+				id="email" maxlength="60" placeholder="E-mail" role="presentation" autocomplete="off">
+
+			<div class="box b1 container border-bottom">
+				<input type="password" name="password"
+					class="mobile-box b9-10 em11 lucida-grande padding-10 margin-top-5 noborder" maxlength="45"
+					placeholder="Senha" role="presentation" autocomplete="off">
+				<div class="mobile-box b10 container center"><img src="/images/icon/eye-open.png"
+						class="image-prop icon size-20 center" onclick="switchPasswordView(this)">
+				</div>
+			</div>
+			<input type="submit"
+				class="box b1 btn-act lucida-grande em11 bold radius-5 noborder shadow-lg-st padding-10 margin-top-10 margin-bottom-5 noselect pointer"
+				value="Criar minha conta">
+		</form>
+	</section>
+</body>
+<footer>
+	<%- include('./../partials/footer.ejs') %>
+	<script src="/scripts/user/main.js"></script>
+
+	<script>
+		document.getElementById("signup-form").business.addEventListener("input", function (event) {
+			if (this.value.length === 1 && event.data === "/") {
+
+			} else if (this.value.length === 1 && event.data != "/") {
+				if (lib.hasForbiddenChar(event.data)) {
+					this.value = this.value.slice(0, this.value.length - 1);
+					return alert("Simbolo não permitido em uma URL.");
+				}
+			} else if (this.value.length > 1) {
+				if (lib.hasForbiddenChar(event.data)) {
+					this.value = this.value.slice(0, this.value.length - 1);
+					return alert("Simbolo não permitido em uma URL.");
+				}
+			}
+
+			if (this.value.length === 1 && event.data && event.data !== "/") {
+				this.value = "/" + this.value;
+			} else if (this.value.length === 1 && !event.data) {
+				this.value = "";
+			}
+
+			this.value = this.value.toLowerCase();
+		});
+
+		document.getElementById("signup-form").addEventListener("submit", async e => {
+			e.preventDefault();
+
+			const user = {
+				business: e.target.business.value.slice(1),
+				email: e.target.email.value,
+				password: e.target.password.value
+			};
+
+			let response = await API.response(User.signup, user);
+
+			if (response.msg) {
+				document.getElementById("message").innerHTML = response.msg;
+				document.getElementById("message").style.display = "";
+				return;
+			}
+
+			if (response.done) {
+				lib.message(response.done, () => {
+					return window.location.href = "/";
+				});
+			}
+		});
+
+		function switchPasswordView(input) {
+			console.log(document.getElementById("signup-form").password.type);
+			if (document.getElementById("signup-form").password.type == "password") {
+				document.getElementById("signup-form").password.type = "text";
+				input.src = "/images/icon/eye-closed.png";
+			} else if (document.getElementById("signup-form").password.type == "text") {
+				document.getElementById("signup-form").password.type = "password";
+				input.src = "/images/icon/eye-open.png";
+			}
+		};
+	</script>
+</footer>
+
+</html>

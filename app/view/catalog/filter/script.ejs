@@ -1,0 +1,36 @@
+<script>
+  document.getElementById("catalog-filter-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const catalog = {}
+
+    let catalogs = await API.response(Catalog.filter, catalog);
+    if (!catalogs) { return false; }
+
+    lib.display("catalog-filter-box", "");
+
+    catalogFilter(catalogs);
+  });
+
+  function catalogFilter(catalogs) {
+    let filter_div = document.getElementById("catalog-filter-div");
+    filter_div.innerHTML = "";
+
+    if (!catalogs.length) {
+      return filter_div.append(lib.element.create("div", { class: "box b1 center padding-10" }, "Nenhum catálogo encontrado."));
+    }
+
+    catalogs.forEach(catalog => {
+      let catalog_div = lib.element.create("div", {
+        class: "box b4-5 container border-st shadow-lg-st radius-5 padding-10 margin-top-5 pointer",
+        onclick: `catalogDetail(${catalog.id})`
+      });
+
+      catalog_div.append(lib.element.create("div", { class: "mobile-box b1 lucida-grande em09 bold center" }, `cotalogo.com/${business_name}${catalog.url}`));
+
+      filter_div.append(catalog_div);
+    });
+  };
+
+  document.getElementById("catalog-filter-form").submit.click();
+</script>

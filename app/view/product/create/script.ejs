@@ -1,0 +1,88 @@
+<script>
+  document.getElementById("product-create-form").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    let product = new FormData();
+    product.append('id', e.target.id.value || null);
+    product.append('code', e.target.code.value || null);
+    product.append('name', e.target.name.value || null);
+    product.append('description', e.target.description.value || null);
+
+    let variation_box = document.getElementById("create-variation-box");
+    let arr = Array.from(variation_box.querySelectorAll("select")).map(input => {
+      input.value && product.append('variations', input.value);
+    });
+
+    const input = document.getElementById('files');
+
+    for (let i in input.files) { product.append('file', input.files[i]); };
+
+    console.log(product);
+
+    let response = await API.response(Product.save, product);
+    if (!response) { return false; }
+
+    lib.msg(response.done);
+
+    e.target.id.value = "";
+    e.target.code.value = "";
+    e.target.name.value = "";
+    e.target.description.value = "";
+
+    Array.from(variation_box.querySelectorAll("select")).map(input => {
+      input.value = "";
+    });
+
+    drawImages([]);
+    clearFileList();
+    lib.display("product-image-box", "none");
+
+    e.target.submit.value = "Cadastrar produto";
+    document.getElementById("create-form-span").innerHTML = "Novo produto";
+
+    document.getElementById("product-filter-form").submit.click();
+  });
+
+  async function productEdit(id) {
+    let product = await API.response(Product.findById, id);
+    if (!product) { return false };
+
+    document.getElementById("create-form-span").innerHTML = "Atualizar produto";
+
+    lib.display("product-image-box", "");
+    drawImages(product.images);
+
+    lib.display("product-create-form", "");
+    document.getElementById("product-create-container").scrollIntoView();
+    document.getElementById("product-create-expander").src = "/images/icon/retract.png";
+    document.getElementById("product-create-form").elements.submit.value = "Atualizar produto";
+
+    const product_create_form = document.getElementById('product-create-form');
+    product_create_form.id.value = product.id;
+    product_create_form.code.value = product.code;
+    product_create_form.name.value = product.name;
+    product_create_form.description.value = product.description;
+
+    let variation_box = document.getElementById("create-variation-box");
+
+    product.variations.forEach(variation => {
+      Array.from(variation_box.querySelectorAll("select")).map(input => {
+        input.querySelectorAll('option').forEach(option => {
+          if (option.value == variation.variation_id) {
+            input.value = option.value;
+          }
+        });
+      });
+    });
+
+    clearFileList();
+  };
+
+  async function productDelete(id) {
+    let r = confirm('Deseja realmente excluir o produto? Atenção, essa ação não pode ser desfeita!');
+    if (r) {
+      if (!await API.response(Product.delete, id)) { return false; };
+      document.getElementById("product-filter-form").submit.click();
+    }
+  };
+</script>

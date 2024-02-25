@@ -1,0 +1,40 @@
+<html>
+
+<head>
+  <%- include('./../partials/head.ejs') %>
+</head>
+
+<body>
+  <%- include('./../partials/userHeader.ejs') %>
+
+  <%- include('./../partials/sidebar.ejs') %>
+  <section class="container h-center">
+    <div id="category-box" class="box b2 container ground border-st radius-5 padding-10">
+      <%- include('./create/form.ejs') %>
+      <%- include('./filter/box.ejs') %>
+    </div>
+    <%- include('./detail/box.ejs') %>
+  </section>
+</body>
+<footer>
+  <%- include('./../partials/footer.ejs') %>
+  <script src="/js/product/main.js"></script>
+  <script src="/js/category/main.js"></script>
+  <script src="/js/category/variation.js"></script>
+  <script src="/js/category/type.js"></script>
+  <%- include('./create/script.ejs') %>
+  <%- include('./filter/script.ejs') %>
+  <%- include('./detail/script.ejs') %>
+  <%- include('./variation/create/form.ejs') %>
+  <%- include('./variation/create/script.ejs') %>
+  <%- include('./variation/filter/form.ejs') %>
+  <%- include('./variation/filter/script.ejs') %>
+  <%- include('./variation/scope/form.ejs') %>
+  <%- include('./variation/scope/script.ejs') %>
+
+  <script>
+    document.getElementById("category-filter-form").submit.click();
+  </script>
+</footer>
+
+</html>

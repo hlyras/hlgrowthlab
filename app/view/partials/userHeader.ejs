@@ -1,0 +1,16 @@
+<section class="container" style="background-color:#000;color:var(--ground)">
+  <div class="mobile-box a3 center"></div>
+  <div class="mobile-box a3 icon em15 bold lucida-grande padding-3 center noselect pointer"
+    onclick="window.location.href='/'"><%= `${user.business}` %></div>
+  <div class="mobile-box b3 container">
+    <div class="mobile-box container right padding-5">
+      <a class="mobile-box"><img class='noselect icon size-30 padding-5' onclick="window.location.href='/user/account'"
+          src="/images/icon/help-white.png"></a>
+      <a class="mobile-box"><img class='noselect icon size-30 padding-5' onclick="window.location.href='/user/account'"
+          src="/images/icon/admin-white.png"></a>
+      <a class="mobile-box"><img class="noselect icon size-30 padding-5"
+          onclick="lib.confirm('Deseja sair?', (r) => { if(r==true){ window.location.href='/user/logout' } })"
+          src="/images/icon/logout-white.png"></a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,86 @@
+<script>
+  document.getElementById("product-filter-form").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    let product = {};
+
+    for (let i in event.target.elements) {
+      if (event.target.elements[event.target.elements[i].name]) {
+        product[event.target.elements[i].name] = event.target.elements[event.target.elements[i].name].value;
+      }
+    };
+
+    delete product.item;
+    delete product.namedItem;
+    delete product.submit;
+
+    let products = await API.response(Product.filter, product);
+    if (!products) { return false; }
+
+    lib.display("product-detail-box", 'none');
+
+    const pagination = { pageSize: 10, page: 0 };
+    (function () { lib.carousel.execute("product-filter-box", productFilter, products, pagination); }());
+  });
+
+  const productFilter = (products, pagination) => {
+    let filter_box = document.getElementById("product-filter-box");
+    let filter_div = document.getElementById("product-filter-div");
+    filter_div.innerHTML = "";
+
+    if (products.length) {
+      for (let i = pagination.page * pagination.pageSize; i < products.length && i < (pagination.page + 1) * pagination.pageSize; i++) {
+        let div_product = lib.element.create("div", { class: "box width-300 margin-5 container margin-top-10 padding-10 pointer border radius-5 noselect pointer h-center" });
+
+        let product_carousel = lib.element.create("div", { id: `product-${products[i].id}`, class: "carousel-container h-center" });
+        let carousel_slides = lib.element.create("div", { class: `box carousel-slides h-center` });
+        product_carousel.append(carousel_slides);
+
+        for (let y in products[i].images) {
+          let carousel_slide = lib.element.create("div", { class: `carousel-slide height-200` });
+          carousel_slide.append(lib.element.create("img", {
+            class: "image-prop max-height-200",
+            src: products[i].images[y].url,
+            draggable: false
+          }));
+          carousel_slides.append(carousel_slide);
+        };
+        div_product.append(product_carousel);
+
+        !products[i].images.length && carousel_slides.appendChild(lib.element.create("img", {
+          class: "image-prop height-200",
+          src: '/images/product/no-product.png',
+          draggable: false
+        }));
+
+        let div_info = lib.element.create("div", { class: "mobile-box b1 container opacity-out-07 transition-04-04 h-center" });
+        div_info.append(lib.element.create("div", { class: "box b1 em11 lucida-grande bold margin-top-5 center" }, products[i].name));
+
+        let variation_div = lib.element.create("div", { class: "box b1 container padding-10" });
+
+        products[i].variations.forEach(variation => {
+          variation_div.append(lib.element.createInfo("b2 lucida-grande bold margin-top-5 center", variation.category_name, variation.variation_name));
+          div_info.append(variation_div);
+        });
+
+        div_info.append(lib.element.icon('b2', 20, "/images/icon/edit.png", `productEdit(${products[i].id})`));
+        div_info.append(lib.element.icon('b2', 20, "/images/icon/trash.png", `productDelete(${products[i].id})`));
+        div_product.append(div_info);
+
+        filter_div.append(div_product);
+
+        products[i].images.length && lib.Carousel(`product-${products[i].id}`);
+      };
+
+      filter_box.style.display = "";
+    } else {
+      let div_product = lib.element.create("div", { class: "box b1 center box-hover padding-5 border" }, "Sem resultados");
+      filter_div.appendChild(div_product);
+      filter_box.style.display = "";
+    };
+  };
+
+  function clearVariationInputs() {
+    document.getElementById("product-filter-form").querySelectorAll("select").forEach(input => input.value = "");
+  };
+</script>

@@ -1,0 +1,82 @@
+<div class="container">
+	<div class="mobile-box right padding-10">
+		<img class='icon size-40 open-btn' src='/images/icon/menu.png' onclick="openNav()">
+	</div>
+</div>
+
+<div id="mySidebar" class="sidebar scroll-y noselect">
+	<div class="container margin-bottom-20">
+		<div class="mobile-box b6-7"></div>
+		<div class="mobile-box container bold b7 h-center">
+			<img class='icon size-15 open-btn' src='/images/icon/close.png' onclick="closeNav()">
+		</div>
+	</div>
+
+	<ul>
+		<li class="underline margin-top-5">
+			<a class="lucida-grande bold">Meu negócio</a>
+			<ul>
+				<li><a onclick="window.location.href = `/catalog/theme`" class="lucida-grande">Editar tema</a>
+				</li>
+			</ul>
+		</li>
+
+		<li class="underline margin-top-5">
+			<a class="lucida-grande bold">Produtos</a>
+			<ul>
+				<li><a onclick="window.location.href = `/product`" class="lucida-grande">Gerir produtos</a></li>
+				<li><a onclick="window.location.href = `/category`" class="lucida-grande">Categorias e
+						variações</a></li>
+			</ul>
+		</li>
+
+		<li class="underline margin-top-5">
+			<a class="lucida-grande bold">Catálogos</a>
+			<ul>
+				<li><a onclick="window.location.href = `/catalog`" class="lucida-grande">Gerir catálogos</a></li>
+			</ul>
+		</li>
+
+	</ul>
+</div>
+
+<script>
+	const sidebar = document.querySelector(".sidebar");
+
+	document.addEventListener("DOMContentLoaded", () => {
+		// add active class to the first link on page load
+		sidebar.querySelector("a").classList.add("active");
+	});
+
+	sidebar.addEventListener("click", (event) => {
+		if (event.target.tagName === "A") {
+			// remove active class from all links
+			sidebar.querySelectorAll("a").forEach((link) => {
+				link.classList.remove("active");
+			});
+
+			// add active class to the clicked link
+			event.target.classList.add("active");
+
+			// toggle submenu display
+			const li = event.target.parentNode;
+			li.classList.toggle("active");
+		}
+	});
+
+	function openNav() {
+		document.getElementById("mySidebar").classList.add("open");
+
+		// fecha a barra lateral se um clique ocorrer fora dela
+		document.addEventListener("click", function closeNav(event) {
+			if (!event.target.closest(".sidebar") && !event.target.closest(".open-btn")) {
+				document.getElementById("mySidebar").classList.remove("open");
+				document.removeEventListener("click", closeNav);
+			}
+		});
+	}
+
+	function closeNav() {
+		document.getElementById("mySidebar").classList.remove("open");
+	}
+</script>

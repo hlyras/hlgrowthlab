@@ -1,0 +1,46 @@
+<div id="create-cob-btn" class="box b2 container ground border radius-5 padding-5 margin-top-5 h-center">
+  <img src="/images/icon/pix.png" class="image-prop width-100">
+
+  <div class="box b1 btn-act lucida-grande bold border radius-5 margin-top-5 padding-5 center pointer"
+    onclick="lib.display('create-cob-form', '');lib.display('create-cob-btn', 'none')">
+    Recarregar Saldo com PIX
+  </div>
+</div>
+
+
+<form id="create-cob-form" class="box b2 container border radius-5 margin-top-5 h-center" style="display: none;">
+  <div class="mobile-box b12"></div>
+  <div class="mobile-box b5-6 lucida-grande bold georgia center">Realizar recarga PIX</div>
+  <div class="mobile-box b12 lucida-grande bold center pointer"
+    onclick="lib.display('create-cob-form', 'none');lib.display('create-cob-btn', '')">
+    x
+  </div>
+  <div class="box b1 center">
+    <img src="/images/icon/pix.png" class="image-prop width-100">
+  </div>
+  <input type=" number" name="cost" class="box b4 em12 input-generic center bold margin-top-5" step="0.01" value="0.00"
+    onfocus="if(this.value < 0.01){this.value=''}" onblur="if(this.value < 0.01){this.value=parseFloat(0).toFixed(2)}"
+    role="presentation" autocomplete="off" />
+  <input type="submit" class="box b1 btn-act lucida-grande bold border radius-5 margin-top-5 padding-5 center pointer"
+    value="Gerar PIX">
+</form>
+
+<div id="qrcode-box" class="box b2 container h-center border radius-5 padding-10 margin-top-10"
+  style="display: none;background-image: url('/images/background-split.png');">
+  <img id="qrcode-image" src="" class="mobile-box b3 border radius-5 margin-top-15">
+  <div class="box b1 lucida-grande em08 center margin-top-10">Expira em:</div>
+  <div class="box b1 lucida-grande bold center">05/11/2090</div>
+  <input type="button" id="copia-e-cola" value="Copiar código"
+    class="mobile-box b2 btn-act border radius-5 padding-10 margin-top-10 pointer">
+  <div class="box b1 lucida-grande em08 center margin-top-10">Cobrança emitida por:</div>
+  <div class="box b1 lucida-grande bold center">Cotalogo S/A</div>
+
+  <div class="box b1 lucida-grande em08 center margin-top-10">CNPJ:</div>
+  <div class="box b1 lucida-grande bold center">14.114.604/0001-73</div>
+
+  <div class="box b1 lucida-grande em08 center margin-top-10">Email:</div>
+  <div class="box b1 lucida-grande bold center">suporte@cotalogo.com</div>
+
+  <div class="box b1 lucida-grande em08 center margin-top-10">Endereço:</div>
+  <div class="box b1 lucida-grande bold center">Rua Otton da Fonseca, BL4 305, Jardim Sulacap</div>
+</div>

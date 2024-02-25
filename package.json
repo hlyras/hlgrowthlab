@@ -1,0 +1,42 @@
+{
+  "name": "hlgrowthlab",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hlyras/hlgrowthlab.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hlyras/hlgrowthlab/issues"
+  },
+  "homepage": "https://github.com/hlyras/hlgrowthlab#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.521.0",
+    "axios": "^1.2.6",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.19.0",
+    "connect": "^3.7.0",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^8.1.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-session": "^1.16.1",
+    "gerencianet": "^1.0.3",
+    "jarmlib": "^1.0.63",
+    "jsonwebtoken": "^9.0.0",
+    "multer": "^1.4.4",
+    "multer-s3": "^3.0.1",
+    "mysql": "^2.17.1",
+    "nodemailer": "^6.7.2",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "sharp": "^0.31.3"
+  }
+}

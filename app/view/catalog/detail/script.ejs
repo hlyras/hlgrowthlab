@@ -1,0 +1,36 @@
+<script>
+  async function catalogDetail(id) {
+    let catalog = await API.response(Catalog.findById, id);
+    if (!catalog) { return false; }
+
+    catalog.products = await API.response(Catalog.product.filter, { catalog_id: id });
+    if (!catalog.products) { return false; }
+
+    lib.display("catalog-detail-box", "");
+    lib.display("catalog-filter-container", "none");
+
+    document.getElementById("product-insert-form").catalog_id.value = catalog.id;
+    document.getElementById("product-filter-form").catalog_id.value = catalog.id;
+
+    catalogInfo(catalog);
+
+    document.getElementById("product-filter-form").submit.click();
+  };
+
+  function catalogInfo(catalog) {
+    let detail_div = document.getElementById("catalog-detail-div");
+    detail_div.innerHTML = "";
+
+    catalog.url != "/" && detail_div.append(lib.element.create("div", { class: "mobile-box b3-4" }));
+    catalog.url != "/" && detail_div.append(lib.element.icon('b12', 20, "/images/icon/edit.png", `catalogEdit(${catalog.id})`));
+    catalog.url != "/" && detail_div.append(lib.element.icon('b12', 20, "/images/icon/trash.png", `catalogDelete(${catalog.id})`));
+    catalog.url == "/" && detail_div.append(lib.element.create("div", { class: "mobile-box b11-12" }));
+    detail_div.append(lib.element.icon('b12', 20, '/images/icon/close.png', `closeCatalog()`));
+    detail_div.append(lib.element.create("div", { class: "mobile-box b1 underline lucida-grande margin-top-10 center" }, `cotalogo.com/${business_name}${catalog.url}`));
+  };
+
+  function closeCatalog() {
+    lib.display("catalog-detail-box", "none");
+    lib.display("catalog-filter-container", "");
+  };
+</script>
